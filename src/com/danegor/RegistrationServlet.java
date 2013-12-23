@@ -20,7 +20,6 @@ public class RegistrationServlet extends HttpServlet {
     @EJB
     RegBean rb;
 	
-//	ejb:/EJBTest//HelloWorldBean!com.danegor.business.HelloWorld
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -47,31 +46,6 @@ public class RegistrationServlet extends HttpServlet {
 		String pass = request.getParameter("pass");
 		rb.createUser(login, pass);
 		response.getWriter().write("<html><body>Registered!</body></html");
-		/*
-		Connection con = null;
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource) ic.lookup("java:jboss/postgresDS");
-			con = ds.getConnection();
-			PreparedStatement stmt = con.prepareStatement("insert into user_table(name, pass) values (?, ?)");
-			stmt.setString(1, login);
-			stmt.setString(2, pass);
-			stmt.executeUpdate();
-			response.getWriter().write("<html><body>Registered!</body></html");
-			stmt.close();
-		} catch (Exception e) {
-			response.getWriter().write("Exception thrown :/");
-			e.printStackTrace();
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		*/
 	}
 
 }
