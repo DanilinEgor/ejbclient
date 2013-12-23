@@ -1,7 +1,6 @@
 package com.danegor;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -9,10 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.danegor.beans.RegBean;
-import com.danegor.classes.Circle;
-import com.danegor.classes.Shape;
 
 /**
  * Servlet implementation class IndexSerblet
@@ -37,15 +35,17 @@ public class IndexServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		List<Shape> shapes = rb.showAll();
+		HttpSession session = request.getSession();
 		response.getWriter().write("<html><body>");
-		for (Shape shape : shapes) {
-			Circle c = (Circle) shape;
-			response.getWriter().write(c.getId() + " | " + c.getRadius() + "<br>");
-		}
-		response.getWriter()
-				.write("<a href=\"/Client/login\">Login</a><br><a href=\"/Client/registration\">Registration</a>"
-						+ "</body></html>");
+		if (session.getAttribute("username") == null)
+			response.getWriter()
+					.write("<a href=\"/Client/login\">Login</a><br><a href=\"/Client/registration\">Registration</a>");
+		else
+			response.getWriter().write(
+					session.getAttribute("username")
+							+ " | <a href=\"/Client/exit\">Exit</a>");
+		
+		response.getWriter().write("</body></html>");
 	}
 
 	/**

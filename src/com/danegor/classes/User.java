@@ -1,16 +1,22 @@
 package com.danegor.classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity 
-@Table (name = "user_table")
+@Entity
+@Table(name = "user_table")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -19,16 +25,28 @@ public class User implements Serializable {
 
 	@Column(name = "name")
 	String userName;
-	
+
 	@Column(name = "pass")
 	String userPass;
-	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_posts", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "post_id", referencedColumnName = "id") })
+	List<Post> posts = new ArrayList<Post>();
+
 	public String getUserPass() {
 		return userPass;
 	}
 
 	public void setUserPass(String userPass) {
 		this.userPass = userPass;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 	public static long getSerialversionuid() {

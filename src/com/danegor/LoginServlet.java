@@ -1,18 +1,16 @@
 package com.danegor;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import javax.naming.InitialContext;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+import javax.servlet.http.HttpSession;
+
+import com.danegor.beans.LoginBean;
 
 /**
  * Servlet implementation class FirstServlet
@@ -20,7 +18,10 @@ import javax.sql.DataSource;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
+	@EJB
+	LoginBean lb;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -35,10 +36,15 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter()
-				.write("<html><body>"
-						+ "<form method=\"post\">login:<input name=\"login\">"
-						+ "<br>pass:<input name=\"pass\"><input type=submit value=\"Login\"></form></body></html>");
+		HttpSession session = request.getSession();
+		if (session.getAttribute("username") != null)
+			response.getWriter()
+					.write("<html><body>You are already logined!<br><a href=\"/Client/index\">Index page</a></body></html>");
+		else
+			response.getWriter()
+					.write("<html><body>"
+							+ "<form method=\"post\">login:<input name=\"login\">"
+							+ "<br>pass:<input name=\"pass\" type=\"password\"><input type=submit value=\"Login\"></form></body></html>");
 	}
 
 	/**
@@ -49,46 +55,16 @@ public class LoginServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
 		String pass = request.getParameter("pass");
-		Connection con = null;
-		try {
-			InitialContext ic = new InitialContext();
-			DataSource ds = (DataSource) ic.lookup("java:jboss/postgresDS");
-			con = ds.getConnection();
-			PreparedStatement stmt = con.prepareStatement(
-					"select * from user_table where name = ? and pass = ?",
-					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY);
-			stmt.setString(1, login);
-			stmt.setString(2, pass);
-			ResultSet rs = stmt.executeQuery();
-			response.getWriter().write("<html><body>");
-			if (rs.next() == false) {
-				response.getWriter().write("No such name and pass");
-			} else {
-				rs.beforeFirst();
-				while (rs.next()) {
-					response.getWriter().write(
-							login + "<br>" + pass + "<br> <hr>"
-									+ rs.getString("id") + " | "
-									+ rs.getString("name") + " | "
-									+ rs.getString("pass"));
-				}
-			}
-			response.getWriter().write("</body></html");
-			rs.close();
-			stmt.close();
-		} catch (Exception e) {
-			response.getWriter().write("Exception thrown :/");
-			e.printStackTrace();
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+		response.getWriter().write("<html><body>");
+		if (lb.checkLogin(login, pass)) {
+			HttpSession session = request.getSession();
+			session.setAttribute("username", login);
+			response.getWriter().write("Welcome, " + login);
+		} else {
+			response.getWriter().write("Wrong login/pass");
 		}
+		response.getWriter().write(
+				"<br><a href=\"/Client/index\">Index page</a></body></html");
 	}
 
 }
