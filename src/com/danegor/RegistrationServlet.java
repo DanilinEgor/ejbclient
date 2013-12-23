@@ -1,17 +1,15 @@
 package com.danegor;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
-import javax.naming.InitialContext;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
+
+import com.danegor.beans.RegBean;
 
 /**
  * Servlet implementation class RegistrationServlet
@@ -19,7 +17,10 @@ import javax.sql.DataSource;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    @EJB
+    RegBean rb;
+	
+//	ejb:/EJBTest//HelloWorldBean!com.danegor.business.HelloWorld
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -44,6 +45,9 @@ public class RegistrationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
 		String pass = request.getParameter("pass");
+		rb.createUser(login, pass);
+		response.getWriter().write("<html><body>Registered!</body></html");
+		/*
 		Connection con = null;
 		try {
 			InitialContext ic = new InitialContext();
@@ -67,6 +71,7 @@ public class RegistrationServlet extends HttpServlet {
 				}
 			}
 		}
+		*/
 	}
 
 }
