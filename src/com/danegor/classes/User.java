@@ -1,8 +1,8 @@
 package com.danegor.classes;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,7 +31,7 @@ public class User implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_posts", joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "post_id", referencedColumnName = "id") })
-	List<Post> posts = new ArrayList<Post>();
+	Set<Post> posts = new HashSet<Post>();
 
 	public String getUserPass() {
 		return userPass;
@@ -41,11 +41,11 @@ public class User implements Serializable {
 		this.userPass = userPass;
 	}
 
-	public List<Post> getPosts() {
+	public Set<Post> getPosts() {
 		return posts;
 	}
 
-	public void setPosts(List<Post> posts) {
+	public void setPosts(Set<Post> posts) {
 		this.posts = posts;
 	}
 

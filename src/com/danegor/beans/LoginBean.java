@@ -18,7 +18,6 @@ public class LoginBean {
 	EntityManager em;
 	
     public LoginBean() {
-        // TODO Auto-generated constructor stub
     }
     
     public boolean checkLogin(String login, String pass) {

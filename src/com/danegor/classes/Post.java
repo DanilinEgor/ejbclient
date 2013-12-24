@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "post")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Post {
+public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	int id;

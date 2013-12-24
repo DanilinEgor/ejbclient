@@ -43,7 +43,7 @@ public class RegistrationServlet extends HttpServlet {
 			response.getWriter()
 					.write("<html><body>"
 							+ "<form method=\"post\">login:<input name=\"login\">"
-							+ "<br>pass:<input name=\"pass\" type=\"password\"><input type=submit value=\"Register\"></form></body></html>");
+							+ "<br>pass:<input name=\"pass\" type=\"password\"><input type=submit value=\"Register\"></form><br><a href=\"/Client/index\">Index page</a></body></html>");
 	}
 
 	/**
@@ -55,7 +55,8 @@ public class RegistrationServlet extends HttpServlet {
 		String login = request.getParameter("login");
 		String pass = request.getParameter("pass");
 		rb.createUser(login, pass);
-		response.getWriter().write("<html><body>Registered!<br><a href=\"/Client/index\">Index page</a></body></html>");
+		response.getWriter()
+				.write("<html><body>Registered!<br><a href=\"/Client/index\">Index page</a></body></html>");
 	}
 
 }

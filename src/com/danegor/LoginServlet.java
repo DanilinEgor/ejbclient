@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
 			response.getWriter()
 					.write("<html><body>"
 							+ "<form method=\"post\">login:<input name=\"login\">"
-							+ "<br>pass:<input name=\"pass\" type=\"password\"><input type=submit value=\"Login\"></form></body></html>");
+							+ "<br>pass:<input name=\"pass\" type=\"password\"><input type=submit value=\"Login\"></form><br><a href=\"/Client/index\">Index page</a></body></html>");
 	}
 
 	/**
