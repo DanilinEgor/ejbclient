@@ -8,18 +8,9 @@ import javax.persistence.Table;
 public class Comment extends Post {
 	String text;
 	
-	String author;
 
 	public String getText() {
 		return text;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 
 	public void setText(String text) {

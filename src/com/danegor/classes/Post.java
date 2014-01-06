@@ -16,6 +16,16 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	int id;
 	
+	String author;
+	
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
 	int mark;
 
 	public int getId() {

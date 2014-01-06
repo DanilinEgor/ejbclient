@@ -14,7 +14,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "drawing")
 public class Drawing extends Post {
-	String author;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "drawing_shapes", joinColumns = { @JoinColumn(name = "drawing_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "shape_id", referencedColumnName = "id") })
@@ -26,14 +25,6 @@ public class Drawing extends Post {
 
 	public void setShapes(Set<Shape> shapes) {
 		this.shapes = shapes;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

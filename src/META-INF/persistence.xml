@@ -16,7 +16,7 @@
 		<class>com.danegor.classes.Drawing</class>
 		<class>com.danegor.classes.Comment</class>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="validate" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="false" />
 		</properties>

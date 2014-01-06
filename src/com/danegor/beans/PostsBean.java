@@ -29,5 +29,13 @@ public class PostsBean {
     	List<Post> res = query.getResultList();
     	return res;
     }
+    
+    public List<Post> getUserPosts(String author) {
+    	Query query = em.createQuery("from Post where author = :author");
+    	query.setParameter("author", author);
+    	List<Post> res = query.getResultList();
+    	return res;
+    }
+    
 
 }
